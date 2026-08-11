@@ -1,0 +1,249 @@
+/**
+ * @mainpage MVUE Library
+ *
+ * @brief Minimum Variance Unbiased Estimator library for sensor fusion.
+ *
+ * @section introduction Introduction
+ *
+ * The MVUE library provides lightweight, template-based C++ implementations
+ * of Minimum Variance Unbiased Estimators (MVUE) for combining multiple
+ * independent measurements of the same quantity.
+ *
+ * When multiple sensors provide measurements of the same physical quantity
+ * with known measurement variances, the measurements can be combined into
+ * a single estimate with lower variance than the individual measurements.
+ *
+ * The library provides estimators for a fixed number of measurements as well
+ * as a generic estimator supporting an arbitrary number of measurements.
+ *
+ *
+ * @section mathematical_model Mathematical Model
+ *
+ * Consider a quantity @f$x@f$ measured by @f$N@f$ independent sensors:
+ *
+ * @f[
+ * x_i = x + v_i
+ * @f]
+ *
+ * where @f$x_i@f$ is the measurement from sensor @f$i@f$ and @f$v_i@f$ is
+ * zero-mean measurement noise with variance @f$\sigma_i^2@f$.
+ *
+ * The minimum variance unbiased estimate is obtained using inverse-variance
+ * weighting:
+ *
+ * @f[
+ * \hat{x} =
+ * \frac{
+ * \displaystyle\sum_{i=1}^{N}\frac{x_i}{\sigma_i^2}
+ * }{
+ * \displaystyle\sum_{i=1}^{N}\frac{1}{\sigma_i^2}
+ * }
+ * @f]
+ *
+ * The variance of the resulting estimate is:
+ *
+ * @f[
+ * \mathrm{Var}(\hat{x}) =
+ * \frac{1}{
+ * \displaystyle\sum_{i=1}^{N}\frac{1}{\sigma_i^2}
+ * }
+ * @f]
+ *
+ * Therefore, measurements with lower variance receive greater weight in the
+ * resulting estimate.
+ *
+ *
+ * @section blue BLUE Relationship
+ *
+ * The inverse-variance weighted estimator is also the Best Linear Unbiased
+ * Estimator (BLUE) when the required assumptions are satisfied.
+ *
+ * In particular, for independent measurements with known variances, the
+ * estimator can be written as a linear combination:
+ *
+ * @f[
+ * \hat{x} = \sum_{i=1}^{N} w_i x_i
+ * @f]
+ *
+ * where
+ *
+ * @f[
+ * w_i =
+ * \frac{1/\sigma_i^2}
+ * {\displaystyle\sum_{j=1}^{N}1/\sigma_j^2}.
+ * @f]
+ *
+ * The weights satisfy the unbiasedness condition:
+ *
+ * @f[
+ * \sum_{i=1}^{N} w_i = 1.
+ * @f]
+ *
+ *
+ * @section features Features
+ *
+ * The library provides:
+ *
+ * - Two-measurement MVUE estimator.
+ * - Three-measurement MVUE estimator.
+ * - Four-measurement MVUE estimator.
+ * - N-measurement MVUE estimator.
+ * - C++ template support for different numeric types.
+ * - A lightweight interface suitable for embedded and real-time applications.
+ *
+ *
+ * @section quickstart Quick Start
+ *
+ * @subsection include Include the Library
+ *
+ * Include the main library header:
+ *
+ * @code{.cpp}
+ * #include "mvue.h"
+ * @endcode
+ *
+ *
+ * @subsection two_sensor Two-Measurement Example
+ *
+ * The following example combines two measurements with known variances:
+ *
+ * @code{.cpp}
+ * #include "mvue_2.h"
+ *
+ * estimators::mvue::MVUE_2<double> estimator;
+ *
+ * estimator.init(0.25, 1.0);
+ *
+ * double estimate = estimator.update(10.2, 9.8);
+ * @endcode
+ *
+ * Here, the first measurement has variance @f$0.25@f$ and the second
+ * measurement has variance @f$1.0@f$. Therefore, the first measurement
+ * receives a larger weight.
+ *
+ *
+ * @subsection multiple_sensor Multiple Measurements
+ *
+ * Estimators for three and four measurements are also available:
+ *
+ * @code{.cpp}
+ * #include "mvue_3.h"
+ * #include "mvue_4.h"
+ *
+ * estimators::mvue::MVUE_3<double> estimator_3;
+ * estimators::mvue::MVUE_4<double> estimator_4;
+ *
+ * estimator_3.init(0.25, 1.0, 0.5);
+ * estimator_4.init(0.25, 1.0, 0.5, 2.0);
+ *
+ * double estimate_3 = estimator_3.update(10.2, 9.8, 10.0);
+ * double estimate_4 = estimator_4.update(10.2, 9.8, 10.0, 10.5);
+ * @endcode
+ *
+ *
+ * @subsection n_sensor N_Measurement Estimator
+ *
+ * For an arbitrary number of measurements, use the generic MVUE_N class:
+ *
+ * @code{.cpp}
+ * #include "mvue_n.h"
+ *
+ * constexpr std::size_t N = 5;
+ *
+ * double variances[N] = {
+ *     0.25,
+ *     1.0,
+ *     0.5,
+ *     2.0,
+ *     0.75
+ * };
+ *
+ * double measurements[N] = {
+ *     10.2,
+ *     9.8,
+ *     10.0,
+ *     10.5,
+ *     10.1
+ * };
+ *
+ * estimators::mvue::MVUE_N<double, N> estimator;
+ *
+ * estimator.init(variances);
+ *
+ * double estimate = estimator.update(measurements);
+ * @endcode
+ *
+ *
+ * @section estimators Estimators
+ *
+ * @subsection mvue2 MVUE_2
+ *
+ * Combines two independent measurements using their variances.
+ *
+ * @ref estimators::mvue::MVUE_2
+ *
+ * @subsection mvue3 MVUE_3
+ *
+ * Combines three independent measurements using their variances.
+ *
+ * @ref estimators::mvue::MVUE_3
+ *
+ * @subsection mvue4 MVUE_4
+ *
+ * Combines four independent measurements using their variances.
+ *
+ * @ref estimators::mvue::MVUE_4
+ *
+ * @subsection mvuen MVUE_N
+ *
+ * Generic estimator for an arbitrary compile-time number of measurements.
+ *
+ * @ref estimators::mvue::MVUE_N
+ *
+ *
+ * @section assumptions Assumptions
+ *
+ * The estimator assumes that:
+ *
+ * - The measurements estimate the same underlying quantity.
+ * - The measurement errors are unbiased.
+ * - The measurement variances are known.
+ * - The measurement variances are positive.
+ * - Measurements are independent when using the inverse-variance weighting
+ *   formulation implemented by this library.
+ *
+ * If measurement errors are correlated, the covariance between measurements
+ * must be considered and the simple inverse-variance formulation is no longer
+ * sufficient.
+ *
+ *
+ * @section project_structure Project Structure
+ *
+ * The library is organized as follows:
+ *
+ * @code{.text}
+ * MVUE
+ * ├── include
+ * │   ├── mvue.h
+ * │   ├── mvue_2.h
+ * │   ├── mvue_3.h
+ * │   ├── mvue_4.h
+ * │   └── mvue_n.h
+ * ├── src
+ * │   ├── mvue_2.tpp
+ * │   ├── mvue_3.tpp
+ * │   ├── mvue_4.tpp
+ * │   └── mvue_n.tpp
+ * └── README.md
+ * @endcode
+ *
+ *
+ * @section api API Reference
+ *
+ * For complete documentation of the library API, see:
+ *
+ * - @ref estimators
+ * - Classes
+ * - Files
+ *
+ */
