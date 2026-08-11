@@ -143,7 +143,7 @@ namespace estimators
             T var_2 = 0.0;
         };
 
-#include "MVUE_2.tpp"
+#include "../src/MVUE_2.tpp"
 
     } // namespace mvue
 

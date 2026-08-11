@@ -1,4 +1,4 @@
-#include "mvue_n.h"
+#include "../include/mvue_n.h"
 
 template <typename T, std::size_t N>
 estimators::mvue::MVUE_N<T, N>::MVUE_N()

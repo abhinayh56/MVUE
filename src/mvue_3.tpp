@@ -1,4 +1,4 @@
-#include "mvue_3.h"
+#include "../include/mvue_3.h"
 
 template <typename T>
 estimators::mvue::MVUE_3<T>::MVUE_3()

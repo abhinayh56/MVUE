@@ -176,7 +176,7 @@ namespace estimators
             T *var;
         };
 
-#include "MVUE_N.tpp"
+#include "../src/MVUE_N.tpp"
 
     } // namespace mvue
 

@@ -1,11 +1,11 @@
 /**
- * @file mvue_3.h
- * @brief Three-measurement Minimum Variance Unbiased Estimator.
+ * @file mvue_4.h
+ * @brief Four-measurement Minimum Variance Unbiased Estimator.
  *
  * @details
- * This file defines the @ref estimators::mvue::MVUE_3 class, which
+ * This file defines the @ref estimators::mvue::MVUE_4 class, which
  * implements a Minimum Variance Unbiased Estimator (MVUE) for combining
- * three measurements.
+ * four measurements.
  *
  * Each measurement is associated with a variance. The estimator combines
  * the measurements according to their variances, giving greater weight
@@ -24,8 +24,8 @@
  * Copyright (c) 2026 Abhinay Kumar
  */
 
-#ifndef ESTIMATORS_MVUE_3_H_BLUE_3_H
-#define ESTIMATORS_MVUE_3_H_BLUE_3_H
+#ifndef ESTIMATORS_MVUE_4_H_BLUE_4_H
+#define ESTIMATORS_MVUE_4_H_BLUE_4_H
 
 namespace estimators
 {
@@ -42,11 +42,11 @@ namespace estimators
          */
 
         /**
-         * @class MVUE_3
-         * @brief Minimum Variance Unbiased Estimator for three measurements.
+         * @class MVUE_4
+         * @brief Minimum Variance Unbiased Estimator for four measurements.
          *
          * @details
-         * The MVUE_3 class combines three measurements into a single
+         * The MVUE_4 class combines four measurements into a single
          * estimate while minimizing the variance of the resulting estimate
          * under the assumptions of the estimator.
          *
@@ -58,31 +58,31 @@ namespace estimators
          *
          * @par Example
          * @code{.cpp}
-         * estimators::mvue::MVUE_3<double> estimator;
+         * estimators::mvue::MVUE_4<double> estimator;
          *
-         * estimator.init(var1, var2, var3);
+         * estimator.init(var1, var2, var3, var4);
          *
-         * double estimate = estimator.update(x1, x2, x3);
+         * double estimate = estimator.update(x1, x2, x3, x4);
          * @endcode
          */
         template <typename T>
-        class MVUE_3
+        class MVUE_4
         {
         public:
             /**
-             * @brief Constructs a three-measurement MVUE.
+             * @brief Constructs a four-measurement MVUE.
              *
              * @details
              * The estimator parameters are initialized to zero.
              * Use @ref init() or @ref set_param() to configure the
              * measurement variances before calling @ref update().
              */
-            MVUE_3();
+            MVUE_4();
 
             /**
              * @brief Destroys the MVUE estimator.
              */
-            ~MVUE_3();
+            ~MVUE_4();
 
             /**
              * @brief Initializes the estimator.
@@ -90,12 +90,13 @@ namespace estimators
              * @param[in] var_1_ Variance of the first measurement.
              * @param[in] var_2_ Variance of the second measurement.
              * @param[in] var_3_ Variance of the third measurement.
+             * @param[in] var_4_ Variance of the fourth measurement.
              *
              * @details
              * Initializes the estimator using the variances associated
-             * with the three measurements.
+             * with the four measurements.
              */
-            void init(T var_1_, T var_2_, T var_3_);
+            void init(T var_1_, T var_2_, T var_3_, T var_4_);
 
             /**
              * @brief Sets the estimator parameters.
@@ -103,12 +104,13 @@ namespace estimators
              * @param[in] var_1_ Variance of the first measurement.
              * @param[in] var_2_ Variance of the second measurement.
              * @param[in] var_3_ Variance of the third measurement.
+             * @param[in] var_4_ Variance of the fourth measurement.
              *
              * @details
              * Updates the variances used by the estimator when combining
-             * the three measurements.
+             * the four measurements.
              */
-            void set_param(T var_1_, T var_2_, T var_3_);
+            void set_param(T var_1_, T var_2_, T var_3_, T var_4_);
 
             /**
              * @brief Computes the minimum variance unbiased estimate.
@@ -116,15 +118,16 @@ namespace estimators
              * @param[in] x1_i First measurement.
              * @param[in] x2_i Second measurement.
              * @param[in] x3_i Third measurement.
+             * @param[in] x4_i Fourth measurement.
              *
              * @return Combined minimum variance unbiased estimate.
              *
              * @details
-             * Combines the three input measurements using their associated
+             * Combines the four input measurements using their associated
              * variances and returns the resulting minimum variance
              * unbiased estimate.
              */
-            T update(T x1_i, T x2_i, T x3_i);
+            T update(T x1_i, T x2_i, T x3_i, T x4_i);
 
             /**
              * @brief Resets the estimator.
@@ -149,12 +152,17 @@ namespace estimators
              * @brief Variance of the third measurement.
              */
             T var_3 = 0.0;
+
+            /**
+             * @brief Variance of the fourth measurement.
+             */
+            T var_4 = 0.0;
         };
 
-#include "MVUE_3.tpp"
+#include "../src/MVUE_4.tpp"
 
     } // namespace mvue
 
 } // namespace estimators
 
-#endif // ESTIMATORS_MVUE_3_H_BLUE_3_H
+#endif // ESTIMATORS_MVUE_4_H_BLUE_4_H
