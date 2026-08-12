@@ -223,18 +223,18 @@
  *
  * @code{.text}
  * MVUE
- * ├── include
- * │   ├── mvue.h
- * │   ├── mvue_2.h
- * │   ├── mvue_3.h
- * │   ├── mvue_4.h
- * │   └── mvue_n.h
- * ├── src
- * │   ├── mvue_2.tpp
- * │   ├── mvue_3.tpp
- * │   ├── mvue_4.tpp
- * │   └── mvue_n.tpp
- * └── README.md
+ * +-- include
+ * |   +-- mvue.h
+ * |   +-- mvue_2.h
+ * |   +-- mvue_3.h
+ * |   +-- mvue_4.h
+ * |   `-- mvue_N.h
+ * |
+ * `-- src
+ *     +-- mvue_2.tpp
+ *     +-- mvue_3.tpp
+ *     +-- mvue_4.tpp
+ *     `-- mvue_N.tpp
  * @endcode
  *
  *
