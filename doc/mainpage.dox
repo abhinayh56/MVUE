@@ -52,9 +52,6 @@
  * Therefore, measurements with lower variance receive greater weight in the
  * resulting estimate.
  *
- *
- * @section blue BLUE Relationship
- *
  * The inverse-variance weighted estimator is also the Best Linear Unbiased
  * Estimator (BLUE) when the required assumptions are satisfied.
  *
@@ -80,7 +77,7 @@
  * @f]
  *
  *
- * @section features Features
+ * @section features Features of Library
  *
  * The library provides:
  *
@@ -92,16 +89,43 @@
  * - A lightweight interface suitable for embedded and real-time applications.
  *
  *
- * @section quickstart Quick Start
+  * @section assumptions Assumptions
  *
- * @subsection include Include the Library
+ * The estimator assumes that:
  *
- * Include the main library header:
+ * - The measurements estimate the same underlying quantity.
+ * - The measurement errors are unbiased.
+ * - The measurement variances are known.
+ * - The measurement variances are positive.
+ * - Measurements are independent when using the inverse-variance weighting
+ *   formulation implemented by this library.
  *
- * @code{.cpp}
- * #include "mvue.h"
+ * If measurement errors are correlated, the covariance between measurements
+ * must be considered and the simple inverse-variance formulation is no longer
+ * sufficient.
+ *
+ *
+ * @section project_structure Project Structure
+ *
+ * The library is organized as follows:
+ *
+ * @code{.text}
+ * MVUE
+ * +-- include
+ * |   +-- mvue.h
+ * |   +-- mvue_2.h
+ * |   +-- mvue_3.h
+ * |   +-- mvue_4.h
+ * |   `-- mvue_N.h
+ * |
+ * `-- src
+ *     +-- mvue_2.tpp
+ *     +-- mvue_3.tpp
+ *     +-- mvue_4.tpp
+ *     `-- mvue_N.tpp
  * @endcode
  *
+ * @section quickstart Quick Start
  *
  * @subsection two_sensor Two-Measurement Example
  *
@@ -173,77 +197,8 @@
  * double estimate = estimator.update(measurements);
  * @endcode
  *
- *
- * @section estimators Estimators
- *
- * @subsection mvue2 MVUE_2
- *
- * Combines two independent measurements using their variances.
- *
- * @ref estimators::mvue::MVUE_2
- *
- * @subsection mvue3 MVUE_3
- *
- * Combines three independent measurements using their variances.
- *
- * @ref estimators::mvue::MVUE_3
- *
- * @subsection mvue4 MVUE_4
- *
- * Combines four independent measurements using their variances.
- *
- * @ref estimators::mvue::MVUE_4
- *
- * @subsection mvuen MVUE_N
- *
- * Generic estimator for an arbitrary compile-time number of measurements.
- *
- * @ref estimators::mvue::MVUE_N
- *
- *
- * @section assumptions Assumptions
- *
- * The estimator assumes that:
- *
- * - The measurements estimate the same underlying quantity.
- * - The measurement errors are unbiased.
- * - The measurement variances are known.
- * - The measurement variances are positive.
- * - Measurements are independent when using the inverse-variance weighting
- *   formulation implemented by this library.
- *
- * If measurement errors are correlated, the covariance between measurements
- * must be considered and the simple inverse-variance formulation is no longer
- * sufficient.
- *
- *
- * @section project_structure Project Structure
- *
- * The library is organized as follows:
- *
- * @code{.text}
- * MVUE
- * +-- include
- * |   +-- mvue.h
- * |   +-- mvue_2.h
- * |   +-- mvue_3.h
- * |   +-- mvue_4.h
- * |   `-- mvue_N.h
- * |
- * `-- src
- *     +-- mvue_2.tpp
- *     +-- mvue_3.tpp
- *     +-- mvue_4.tpp
- *     `-- mvue_N.tpp
- * @endcode
- *
- *
  * @section api API Reference
  *
- * For complete documentation of the library API, see:
- *
- * - @ref estimators
- * - Classes
- * - Files
+ * For complete documentation of the library API, see **Files/File List** in the content.
  *
  */
